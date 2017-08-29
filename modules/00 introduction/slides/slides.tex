@@ -1,0 +1,261 @@
+\documentclass[10pt]{beamer}
+\usetheme{metropolis}           % Use metropolis theme
+
+\usepackage{appendixnumberbeamer}
+
+\usepackage{pgfpages}
+\setbeamertemplate{note page}[plain]
+\setbeameroption{show notes on second screen=right}
+\makeatletter 
+% the following fixes bug which causes normal text to be white instead of
+% template default when notes are enabled
+% (see https://tex.stackexchange.com/questions/232168/normal-text-is-invisible-when-using-beamer-with-notes-and-xelatex)
+\def\beamer@framenotesbegin{% at beginning of slide
+     \usebeamercolor[fg]{normal text}
+      \gdef\beamer@noteitems{}% 
+      \gdef\beamer@notes{}% 
+}
+\makeatother
+
+\usepackage{verbatim}
+
+\usepackage[scale=3]{ccicons}   % creative commons icons
+
+\title{CSCI 351 --- Principles of Parallel Computing}
+\date{}
+\author{Jeremy Iverson}
+\institute{College of Saint Benedict \& Saint John's University}
+\begin{document}
+  \maketitle
+
+  \begin{frame}{logistics}
+    \begin{itemize}
+      \item instructor(s)
+        \begin{itemize}
+          \item Jeremy Iverson (\href{mailto:jiverson002@csbsju.edu}{\nolinkurl{jiverson002@csbsju.edu}})
+          \item PENGL 213, (320) 363-3083
+          \item office hours: \begin{tabular}[t]{rrrcr}
+                                MW & 12:45 & - & 13:45 \\
+                                 T & 11:30 & - & 12:30
+                              \end{tabular}
+        \end{itemize}
+      \item textbook
+        \begin{itemize}
+          \item \emph{An Introduction to Parallel Programming}, 1st Edition,
+            Pacheco
+        \end{itemize}
+      \item website
+        \begin{itemize}
+          \item \url{https://csbsju.instructure.com/courses/7664}
+        \end{itemize}
+    \end{itemize}
+
+    \note{I prefer to be called Jeremy\\}
+    \note{Encourage questions right away\\}
+    \note{Emphasize the importance of the Canvas site for finding information
+      about the class}
+  \end{frame}
+
+  \begin{frame}{course objectives}
+    \begin{itemize}
+      \item understand common parallel architectures
+      \item design and analyze parallel algorithms
+      \item write efficient parallel programs
+    \end{itemize}
+  \end{frame}
+
+  \begin{frame}{course content}
+    \begin{itemize}
+      \item parallel architectures
+      \item C programming
+      \item Pthreads
+      \item OpenMP
+      \item MPI
+      \item performance analysis
+      \item parallel algorithm design
+      \item collective communication operations
+      \item matrix algorithms
+      \item sorting algorithms
+      \item graph algorithms
+    \end{itemize}
+
+    \note{Ask students to point out some of the topics that they many have seen
+      before and explain what they are\\}
+    \note{Point out that each of these bullets corresponds to one of the
+      ``modules'' on Canvas (except the last three, which are under advanced
+      topics)}
+  \end{frame}
+
+  \begin{frame}[fragile]{assignments}
+    \begin{itemize}
+      \item four (4) assignments (serial, Pthreads/OpenMP, MPI, ???)
+        \begin{itemize}
+          \item all assignments are to be written in C or C\verb|++|
+        \end{itemize}
+      \item do your own work
+      \item use each other as resources only
+      \item due dates are strict (no partial credit for late assignments)
+    \end{itemize}
+
+    \note{Should be student's own work, may work together but must individual
+      solutions\\}
+    \note{Want to encourage using each other as resources, but do not want some
+      students to rely on other students for answers}
+  \end{frame}
+
+  \begin{frame}{exams}
+    \begin{itemize}
+      \item two (2) in-class exams (closed book / note)
+      \item one (1) in-class final exam (closed book / open note) [cumulative]
+    \end{itemize}
+
+    \note{Make-up exams are possible under certain circumstances}
+  \end{frame}
+
+  \begin{frame}{grading}
+    \begin{itemize}
+      \item point distribution
+        \begin{itemize}
+          \item assignments: 12.5\% each (??\%total)
+          \item exams: 15\% each
+          \item final: 20\%
+        \end{itemize}
+    \end{itemize}
+  \end{frame}
+
+  \begin{frame}{scholastic conduct}
+    \begin{itemize}
+      \item Work must be completed in a manner consistent with the College of
+        Saint Benedict's \& Saint John's University's codes for academic honesty
+        (read that \href{http://www.csbsju.edu/academics}{\nolinkurl{here}}
+        $\rightarrow$ Academic Catalog $\rightarrow$ Academic Policies and
+        Regulations $\rightarrow$ Rights and Responsibilities).
+      \item Copying another's work, allowing (even negligently) others to copy
+        your work, relying heavily on information that you found on the web, is
+        cheating and grounds for penalties in accordance with the institutional
+        policies.
+      \item There will be an absolutely zero tolerance policy. Any copying
+        issues that will arise will be automatically reported to the
+        institution. 
+    \end{itemize}
+  \end{frame}
+
+  \begin{frame}{office hours}
+    \begin{itemize}
+      \item stop by anytime
+      \item \href{http://exchange.csbsju.edu/owa/calendar/JIVERSON002@CSBSJU.EDU/Calendar/calendar.html}{my calendar}
+    \end{itemize}
+
+    \note{Mention outlook calendar \& my home page\\}
+    \note{For those unfamiliar with Outlook meetings, then they should schedule
+      another way and we will go over this in meeting\\}
+    \note{Mention not generally availability in the afternoons}
+  \end{frame}
+
+  \begin{frame}{teaching philosophy}
+    Your job is to empower those you teach; when you do for them what they
+    should be doing for themselves, you create dependency rather than
+    empowerment.
+
+    It is easy to give in to the frustration that results from seeing amazing
+    possibilities for the people you are teaching, and you want it more for them
+    than they want it for themselves. 
+
+    Don’t give in to that frustration! \\
+    \hfill \footnotesize{- Based on passage from ``Resisting Happiness'' by
+      Matthew Kelly}
+
+    \note{In other words, don't expect me to give you answers. My job is to help
+      you discover the answers for yourself.}
+  \end{frame}
+
+  \begin{frame}{expectations}
+    \begin{itemize}
+      \item prepare for class (do the reading!)
+      \item participate in class
+      \item be respectful
+    \end{itemize}
+
+    \note{\begin{itemize}
+      \item Don’t just read, by try your best to make sense of the material
+      \item Emphasize that students are not just recipients of my knowledge ---
+        they can shape the direction of the course
+      \item Encourage students to stop and think before replying.
+      \item Don’t be discouraged if comprehension is not apparent right away,
+        but don’t be complacent
+      \item \textbf{Seek help (TAs and me)}
+      \item Students can expect the same things from me.
+    \end{itemize}}
+  \end{frame}
+
+  \begin{frame}{serial algorithms}
+    \begin{itemize}
+      \item some algorithms that will be relevant to this course:
+        \begin{itemize}
+          \item finding min/max values in array
+          \item matrix-vector and matrix-matrix multiplication
+          \item Gaussian elimination
+          \item depth-first, breadth-first, and best-first traversals
+          \item minimum spanning tree
+          \item single source shortest path
+          \item quicksort, radix sort, bucket sort, counting sort, sample sort
+          \item A* and IDA* heuristic search
+        \end{itemize}
+    \end{itemize}
+
+    \note{\begin{itemize}
+      \item You do not need to know them all now, but it is a good idea to have
+        them on your radar
+      \item Wikipedia is a good resource in this case
+    \end{itemize}}
+  \end{frame}
+
+  \begin{frame}[standout]
+    \usebeamercolor[white]{normal text} % override bug fix in preamble
+    questions?
+  \end{frame}
+
+  \appendix
+
+  \begin{frame}{notecards}
+    \begin{itemize}
+      \item given name
+      \item preferred name and pronunciation
+      \item anything you would like me to know about you
+      \item at least one of the following:
+        \begin{itemize}
+          \item reason for taking the class
+          \item what you are hoping to learn from the class
+        \end{itemize}
+    \end{itemize}
+  \end{frame}
+
+  \begin{frame}{activity}
+    \begin{itemize}
+      \item stand up
+      \item think of the number 1
+      \item repeat while there is at least one other person standing
+        \begin{itemize}
+          \item find another (just one) person standing
+          \item whoever is thinking of a higher number, adds the other persons
+            number to theirs
+          \item whoever is thinking of a lower number, sits down
+          \item in the event of a tie, the taller of the two people sits down
+        \end{itemize}
+    \end{itemize}
+
+    \note{\begin{itemize}
+      \item How many people did you talk to?
+      \item What is the maximum number of people that you talked to as a
+        function of the result?
+    \end{itemize}}
+  \end{frame}
+
+  \begin{frame}
+    \begin{center}\ccbysa\end{center}
+
+    except where otherwise noted, this worked is licensed under
+    \href{http://creativecommons.org/licenses/by-sa/4.0/}{creative commons
+    attribution-sharealike 4.0 international license}
+  \end{frame}
+\end{document}
