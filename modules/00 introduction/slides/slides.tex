@@ -1,20 +1,24 @@
-\documentclass[10pt]{beamer}
+\documentclass[\which, 10pt, t]{beamer}
 \usetheme{metropolis}           % Use metropolis theme
 
 \usepackage{appendixnumberbeamer}
 
-\usepackage{pgfpages}
-\setbeamertemplate{note page}[plain]
-\setbeameroption{show notes on second screen=right}
+\usepackage{ifdraft}
 \makeatletter 
-% the following fixes bug which causes normal text to be white instead of
-% template default when notes are enabled
-% (see https://tex.stackexchange.com/questions/232168/normal-text-is-invisible-when-using-beamer-with-notes-and-xelatex)
-\def\beamer@framenotesbegin{% at beginning of slide
-     \usebeamercolor[fg]{normal text}
-      \gdef\beamer@noteitems{}% 
-      \gdef\beamer@notes{}% 
-}
+\ifdraft{%
+  \hypersetup{final}
+  \usepackage{pgfpages}
+  \setbeamertemplate{note page}[plain]
+  \setbeameroption{show notes on second screen=right}
+  % the following fixes bug which causes normal text to be white instead of
+  % template default when notes are enabled
+  % (see https://tex.stackexchange.com/questions/232168/normal-text-is-invisible-when-using-beamer-with-notes-and-xelatex)
+  \def\beamer@framenotesbegin{% at beginning of slide
+       \usebeamercolor[fg]{normal text}
+        \gdef\beamer@noteitems{}% 
+        \gdef\beamer@notes{}% 
+  }
+}{}
 \makeatother
 
 \usepackage{verbatim}
@@ -211,7 +215,9 @@
   \end{frame}
 
   \begin{frame}[standout]
-    \usebeamercolor[white]{normal text} % override bug fix in preamble
+    \ifdraft{%
+      \usebeamercolor[white]{normal text} % override bug fix in preamble
+    }{}
     questions?
   \end{frame}
 
@@ -251,7 +257,7 @@
     \end{itemize}}
   \end{frame}
 
-  \begin{frame}
+  \begin{frame}[c]
     \begin{center}\ccbysa\end{center}
 
     except where otherwise noted, this worked is licensed under
