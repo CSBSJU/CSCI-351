@@ -1,11 +1,9 @@
-\documentclass[\which, 10pt, t]{beamer}
+\documentclass[10pt, t]{beamer}
 \usetheme{metropolis}           % Use metropolis theme
 
 \usepackage{appendixnumberbeamer}
 
-\usepackage{ifdraft}
-\makeatletter 
-\ifdraft{%
+\ifnotes
   \hypersetup{final}
   \usepackage{pgfpages}
   \setbeamertemplate{note page}[plain]
@@ -13,13 +11,14 @@
   % the following fixes bug which causes normal text to be white instead of
   % template default when notes are enabled
   % (see https://tex.stackexchange.com/questions/232168/normal-text-is-invisible-when-using-beamer-with-notes-and-xelatex)
+  \makeatletter 
   \def\beamer@framenotesbegin{% at beginning of slide
        \usebeamercolor[fg]{normal text}
         \gdef\beamer@noteitems{}% 
         \gdef\beamer@notes{}% 
   }
-}{}
-\makeatother
+  \makeatother
+\fi
 
 \usepackage{verbatim}
 
@@ -215,9 +214,9 @@
   \end{frame}
 
   \begin{frame}[standout]
-    \ifdraft{%
+    \ifnotes
       \usebeamercolor[white]{normal text} % override bug fix in preamble
-    }{}
+    \fi
     questions?
   \end{frame}
 
