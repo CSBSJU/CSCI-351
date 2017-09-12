@@ -1,9 +1,17 @@
-\documentclass[10pt,t,usenames,dvipsnames]{beamer}
+\ifnotes
+\else
+  \PassOptionsToClass{handout}{beamer}
+\fi
 
-\usetheme{metropolis}   % Use metropolis theme
+\documentclass[10pt,t]{beamer}
 
-\usepackage{solarized}  % Use solarized themed listings
+\usetheme{metropolis} % use metropolis theme
 
+\usepackage{solarized}            % use solarized themed listings
+\usepackage{appendixnumberbeamer} % do not number appendix frames
+\usepackage[scale=3]{ccicons}     % creative commons icons
+
+% fix-up the handling of the notes pages
 \ifnotes
   \hypersetup{final}
   \usepackage{pgfpages}
@@ -12,19 +20,20 @@
   % the following fixes bug which causes normal text to be white instead of
   % template default when notes are enabled
   % (see https://tex.stackexchange.com/questions/232168/normal-text-is-invisible-when-using-beamer-with-notes-and-xelatex)
-  \makeatletter 
+  \makeatletter
   \def\beamer@framenotesbegin{% at beginning of slide
        \usebeamercolor[fg]{normal text}
-        \gdef\beamer@noteitems{}% 
-        \gdef\beamer@notes{}% 
+        \gdef\beamer@noteitems{}%
+        \gdef\beamer@notes{}%
   }
   \makeatother
 \fi
 
-\usepackage{appendixnumberbeamer}
+%-------------------------------------------------------------------------------
+
 \usepackage{tabularx}
-\usepackage{listings}
-\usepackage[scale=3]{ccicons}   % creative commons icons
+\usepackage{tikz}
+\usetikzlibrary{decorations.pathreplacing}
 
 \title{C programming language}
 \date{}
@@ -45,8 +54,14 @@
         \hfill \tiny{\href{https://en.wikipedia.org/wiki/Brian\_Kernighan\#/media/File:Brian\_Kernighan\_in\_2012\_at\_Bell\_Labs\_1.jpg}{Brian~Kernighan~in~2012}~/~\href{http://creativecommons.org/licenses/by-sa/2.0}{CC~BY~2.0}}
       \end{column}
     \end{columns}
+
+    \note{
+      \begin{itemize}
+        \item Dennis Ritchie and Brian Kernighan creators of C circa 1972
+      \end{itemize}
+    }
   \end{frame}
-  
+
   \begin{frame}{comparison}
     \begin{center}
       \begin{tabularx}{.8\textwidth}{XX}
@@ -88,7 +103,7 @@
 
   \begin{frame}[fragile]{hello, world}
     \begin{codeblock}
-    ###include <stdio.h>##
+    ###include## $$<stdio.h>$$
 
     int main() {
       printf([["hello, world]]%%\n%%[["]]);
@@ -101,6 +116,14 @@
     $ ./helloworld
     hello, world
     \end{termblock}
+
+    \note{
+      \begin{itemize}
+        \item The tradition of using the phrase "Hello, world!" as a test
+          message was influenced by an example program in the seminal book
+          \emph{The C Programming Language}
+      \end{itemize}
+    }
   \end{frame}
 
   \begin{frame}[fragile]{conditions}
@@ -118,6 +141,14 @@
       /* ??? */
     }
     \end{codeblock}
+
+    \note{
+      \begin{itemize}
+        \item x != 0
+        \item x != y
+        \item y != 0
+      \end{itemize}
+    }
   \end{frame}
 
   \begin{frame}{add evens}
@@ -127,21 +158,325 @@
     \end{itemize}
   \end{frame}
 
-  \begin{frame}[fragile]{add evens cont.}
+  \begin{frame}[fragile]{cli}
     \begin{itemize}
       \item modify \texttt{addEven.c} to get maximum value from the command-line
         instead of hard-coded as 100
     \end{itemize}
 
     \begin{codeblock}
-    ###include <stdio.h>##
+    ###include## $$<stdio.h>$$
 
     int main(int argc, char * argv[]) {
       printf([["(]]%%%d%%[[) ]]%%%s%%[[:]]%%%s\n%%[["]], argc, argv[$$0$$],
         argv[$$1$$]);
       return $$0$$;
-    } 
+    }
     \end{codeblock}
+  \end{frame}
+
+  \begin{frame}[fragile]{printf / scanf}
+    \begin{itemize}
+      \item \texttt{printf()} interprets variables and prints character
+        representations to standard out (usually the terminal)
+      \item \texttt{scanf()} scans characters from standard in (usually the
+        terminal) and interprets them for storage in variables
+    \end{itemize}
+
+    \begin{codeblock}
+    ###include## $$<stdio.h>$$
+
+    int main() {
+      int i;
+      scanf([["]]%%%d%%[["]], &i);
+      return $$0$$;
+    }
+    \end{codeblock}
+
+    \note{
+      \begin{itemize}
+        \item scanf requires you to pass the address of the variable, so that
+          its value can be changed
+      \end{itemize}
+    }
+  \end{frame}
+
+  \begin{frame}[fragile]{echo}
+    \begin{itemize}
+      \item modify \texttt{helloworld.c} to ask user for an input and then print
+        it back
+      \item change its name to \texttt{echo.c}
+    \end{itemize}
+
+    \begin{termblock}
+    $ ./echo
+    Enter a string to echo: hello, world
+    hello,
+    \end{termblock}
+
+    \note{
+      \begin{itemize}
+        \item why did it print \texttt{hello,} instead of \texttt{hello, world}?
+      \end{itemize}
+    }
+  \end{frame}
+
+  \begin{frame}[fragile]{pointers}
+    \begin{itemize}
+      \item a pointer is a variable whose value is a memory address
+    \end{itemize}
+    \begin{codeblock}
+    int   i  = $$0x1A$$;
+    int * ip = &i;
+    \end{codeblock}
+    \begin{itemize}
+      \item \texttt{\&i} evaluates to the address where the variable \texttt{i}
+        is stored in memory
+      \item \texttt{i} is an \texttt{int}, so \texttt{ip} is a \emph{pointer} to
+        an \texttt{int}
+    \end{itemize}
+
+    \hspace{8pt}%
+    \begin{tikzpicture}[font=\ttfamily,noname/.style={text height=1.5ex, text depth=.25ex, text centered, minimum height=3em}]
+      \node[noname] at (-1.3,.3) {\textbf{0x000012A0}};
+      \foreach \x in {0,.6,...,2.4}
+        \draw (\x,0) rectangle ++(.6,.6);
+      \draw[bg, ultra thick] (-.1,.6) -- ++(3.2,0);
+      \foreach [count=\i,evaluate=\i as \x using .3+(\i-1)*.6] \c in {00,00,00,1A}
+        \node[noname] at (\x,.3) {\c};
+      \draw[decoration={brace,mirror,raise=5pt},decorate] (2.4,0) -- node[right=6pt] {i} ++(0,.6);
+
+      \node[noname] at (-1.3,-.7) {\textbf{0x????????}};
+      \foreach \x in {0,.6,...,2.4}
+        \draw (\x,-1) rectangle ++(.6,.6);
+      \draw[bg, ultra thick] (-.1,-.4) -- ++(3.2,0);
+      \foreach [count=\i,evaluate=\i as \x using .3+(\i-1)*.6] \c in {00,00,12,A0}
+        \node[noname] at (\x,-.7) {\c};
+      \draw[decoration={brace,mirror,raise=5pt},decorate] (2.4,-1) -- node[right=6pt] {ip} ++(0,.6);
+    \end{tikzpicture}
+  \end{frame}
+
+  \begin{frame}[fragile]{pointers cont.}
+    \begin{codeblock}
+    printf([["0x]]%%%X\n%%[["]], i);    /* 0x1A */
+    printf([["0x]]%%%#X\n%%[["]], &i);  /* 0x12A0 */
+    printf([["0x]]%%%#X\n%%[["]], ip);  /* 0x12A0 */
+    printf([["0x]]%%%#X\n%%[["]], &ip); /* 0x???????? */
+    \end{codeblock}
+
+    \note{
+      \begin{itemize}
+        \item so how can we use the pointer, \texttt{ip}, to access the value of
+          \texttt{i}?
+      \end{itemize}
+    }
+  \end{frame}
+
+  \begin{frame}[fragile]{pointer dereference}
+    \begin{itemize}
+      \item \texttt{*ptr} will
+        \begin{enumerate}
+          \item treat the value of \texttt{ptr} as a memory address
+          \item get the bytes of data located at that memory address
+          \item interpret those bytes according to the type of pointer that
+            \texttt{ptr} is
+        \end{enumerate}
+    \end{itemize}
+    \begin{codeblock}
+    printf([["0x]]%%%X\n%%[["]], *ip);   /* 0x1A */
+    \end{codeblock}
+
+    \begin{onlyenv}<2->
+      \begin{itemize}
+        \item \texttt{ip[X] = *(ip + X)}
+      \end{itemize}
+      \begin{codeblock}
+    printf([["0x]]%%%X\n%%[["]], ip[0]); /* 0x1A */
+      \end{codeblock}
+    \end{onlyenv}
+
+    \note{
+      \begin{itemize}
+        \item the C compiler is ''smart enough'' to ''know'' that \texttt{+ X}
+          really means add \texttt{X * sizeof(*ip)} to \texttt{ip}
+      \end{itemize}
+    }
+  \end{frame}
+
+  \begin{frame}[fragile]{pointers cont.}
+    \begin{codeblock}
+    printf([["0x]]%%%X\n%%[["]], i);       /* 0x1A */
+    printf([["0x]]%%%X\n%%[["]], *ip);     /* 0x1A */
+    printf([["0x]]%%%X\n%%[["]], ip[$$0$$]);   /* 0x1A */
+    printf([["0x]]%%%X\n%%[["]], *(ip+$$0$$)); /* 0x1A */
+    printf([["0x]]%%%#X\n%%[["]], &i);     /* 0x12A0 */
+    printf([["0x]]%%%#X\n%%[["]], ip);     /* 0x12A0 */
+    printf([["0x]]%%%#X\n%%[["]], &ip);    /* 0x???????? */
+    \end{codeblock}
+  \end{frame}
+
+
+  \begin{frame}[fragile]{pointers cont.}
+    \begin{codeblock}
+    char * cp = "hello, world";
+    \end{codeblock}
+    \begin{itemize}
+      \item \texttt{cp} is a \emph{pointer} to a \texttt{char}
+    \end{itemize}
+
+    \hspace{8pt}%
+    \begin{tikzpicture}[font=\ttfamily,noname/.style={text height=1.5ex, text depth=.25ex, text centered, minimum height=3em}]
+      \node[noname] at (-1.3,.3) {\textbf{0x00004C80}};
+      \foreach \x in {0,.6,...,7.2}
+        \draw (\x,0) rectangle ++(.6,.6);
+      \draw[bg, ultra thick] (-.1,.6) -- ++(8,0);
+      \foreach [count=\i,evaluate=\i as \x using .3+(\i-1)*.6] \c in {h,e,l,l,o,{,},w,o,r,l,d,\textbackslash0}
+        \node[noname] at (\x,.3) {\c};
+
+      \node[noname] at (-1.3,-.7) {\textbf{0x????????}};
+      \foreach \x in {0,.6,...,2.4}
+        \draw (\x,-1) rectangle ++(.6,.6);
+      \draw[bg, ultra thick] (-.1,-.4) -- ++(3.2,0);
+      \foreach [count=\i,evaluate=\i as \x using .3+(\i-1)*.6] \c in {00,00,4C,80}
+        \node[noname] at (\x,-.7) {\c};
+    \end{tikzpicture}
+
+    \begin{codeblock}
+    printf([["]]%%%c\n%%[["]], *cp);     /* h */
+    printf([["]]%%%c\n%%[["]], cp[$$0$$]);   /* h */
+    printf([["]]%%%c\n%%[["]], cp[$$4$$]);   /* o */
+    printf([["]]%%%c\n%%[["]], *(cp+$$4$$)); /* o */
+    printf([["]]%%%s\n%%[["]], cp);      /* hello, world */
+    printf([["]]%%%s\n%%[["]], cp+7);    /* world */
+    printf([["0x]]%%%#X\n%%[["]], cp);   /* 0x4C80 */
+    printf([["0x]]%%%#X\n%%[["]], &cp);  /* 0x???????? */
+    \end{codeblock}
+
+    \note{
+      \begin{itemize}
+        \item why not say \texttt{cp} is a \emph{pointer} to a \texttt{char}
+          array?
+      \end{itemize}
+    }
+  \end{frame}
+
+  \begin{frame}[fragile]{practice}
+    \begin{codeblock}
+    ###include## $$<stdio.h>$$
+
+    void swap(int n1, int n2) {
+      int tmp = n1;
+      n1 = n2;
+      n2 = tmp;
+    }
+
+    int main() {
+      int v1 = $$11$$, v2 = $$77$$;
+      printf([["BEFORE  v1=]]%%%d%%[[, v2=]]%%%d\n%%[["]], v1, v2);
+      swap(v1, v2);
+      printf([["AFTER  v1=]]%%%d%%[[, v2=]]%%%d\n%%[["]], v1, v2);
+      return $$0$$;
+    }
+    \end{codeblock}
+
+    \note{
+      \begin{itemize}
+        \item what's wrong with this program?
+        \item fix the program so that it correctly swaps the two variables'
+          values
+      \end{itemize}
+    }
+  \end{frame}
+
+  \begin{frame}[fragile]{heap memory}
+    \begin{itemize}
+      \item designate a block of memory to store value(s) of a particular
+        data type
+    \end{itemize}
+    \begin{codeblock}
+    int * ip = malloc($$100$$*sizeof(ip));
+    \end{codeblock}
+
+    \hspace{8pt}%
+    \begin{tikzpicture}[font=\ttfamily,noname/.style={text height=1.5ex, text depth=.25ex, text centered, minimum height=3em}]
+      \node[noname] at (-1.3,.3) {\textbf{0x000063DA}};
+      \foreach \x in {0,.6,...,7.2}
+        \draw (\x,0) rectangle ++(.6,.6);
+      \draw[bg, ultra thick] (-.1,.6) -- ++(8,0);
+      \foreach [count=\i,evaluate=\i as \x using .3+(\i-1)*.6] \c in {r,@,!,X,t,v,9,1,S,?,{)},.}
+        \node[noname] at (\x,.3) {\c};
+      \node at (7.6,.3) {$\boldsymbol{\cdots}$};
+
+      \node[noname] at (-1.3,-.7) {\textbf{0x????????}};
+      \foreach \x in {0,.6,...,2.4}
+        \draw (\x,-1) rectangle ++(.6,.6);
+      \draw[bg, ultra thick] (-.1,-.4) -- ++(3.2,0);
+      \foreach [count=\i,evaluate=\i as \x using .3+(\i-1)*.6] \c in {00,00,63,DA}
+        \node[noname] at (\x,-.7) {\c};
+    \end{tikzpicture}
+
+    \begin{onlyenv}<2->
+      \begin{itemize}
+        \item release a block of memory back to system to be used elsewhere
+      \end{itemize}
+      \begin{codeblock}
+    free(ip);
+      \end{codeblock}
+    \end{onlyenv}
+
+    \note{
+      \begin{itemize}
+        \item allocates enough consecutive memory for 100 \texttt{int} values
+      \end{itemize}
+    }
+  \end{frame}
+
+  \begin{frame}[fragile]{heap memory cont.}
+    \begin{codeblock}
+    ip[$$0$$] = $$0x7$$; /* *ip = 0x7; */
+    \end{codeblock}
+
+    \hspace{8pt}%
+    \begin{tikzpicture}[font=\ttfamily,noname/.style={text height=1.5ex, text depth=.25ex, text centered, minimum height=3em}]
+      \node[noname] at (-1.3,.3) {\textbf{0x000063DA}};
+      \foreach \x in {0,.6,...,7.2}
+        \draw (\x,0) rectangle ++(.6,.6);
+      \draw[bg, ultra thick] (-.1,.6) -- ++(8,0);
+      \foreach [count=\i,evaluate=\i as \x using .3+(\i-1)*.6] \c in {00,00,00,07,t,v,9,1,S,?,{)},.}
+        \node[noname] at (\x,.3) {\c};
+      \node at (7.6,.3) {$\boldsymbol{\cdots}$};
+
+      \node[noname] at (-1.3,-.7) {\textbf{0x????????}};
+      \foreach \x in {0,.6,...,2.4}
+        \draw (\x,-1) rectangle ++(.6,.6);
+      \draw[bg, ultra thick] (-.1,-.4) -- ++(3.2,0);
+      \foreach [count=\i,evaluate=\i as \x using .3+(\i-1)*.6] \c in {00,00,63,DA}
+        \node[noname] at (\x,-.7) {\c};
+    \end{tikzpicture}
+
+    \begin{onlyenv}<2->
+      \begin{codeblock}
+    ip[$$1$$] = $$0xA$$; /* *(ip + 1) = 0xA; */
+      \end{codeblock}
+
+      \hspace{8pt}%
+      \begin{tikzpicture}[font=\ttfamily,noname/.style={text height=1.5ex, text depth=.25ex, text centered, minimum height=3em}]
+        \node[noname] at (-1.3,.3) {\textbf{0x000063DA}};
+        \foreach \x in {0,.6,...,7.2}
+          \draw (\x,0) rectangle ++(.6,.6);
+        \draw[bg, ultra thick] (-.1,.6) -- ++(8,0);
+        \foreach [count=\i,evaluate=\i as \x using .3+(\i-1)*.6] \c in {00,00,00,07,00,00,00,0A,S,?,{)},.}
+          \node[noname] at (\x,.3) {\c};
+        \node at (7.6,.3) {$\boldsymbol{\cdots}$};
+      \end{tikzpicture}
+    \end{onlyenv}
+  \end{frame}
+
+  \begin{frame}[fragile]{practice}
+    \begin{itemize}
+      \item download \href{}{this} code
+      \item implement the \texttt{swap} method
+    \end{itemize}
   \end{frame}
 
   \appendix

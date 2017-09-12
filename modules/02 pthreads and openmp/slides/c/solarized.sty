@@ -31,7 +31,6 @@
       framexleftmargin=-18pt,
 %
       fillcolor=\color{solarized-base02},
-      rulecolor=\color{solarized-base02},
       backgroundcolor=\color{solarized-base03},
       basicstyle=\color{solarized-base0}\ttfamily, % normal
       commentstyle=\color{solarized-base01},       % comment
@@ -50,13 +49,14 @@
       numbersep=-16pt,
       numberstyle=\normalfont\tiny\color{solarized-base01},
     }
+    \vspace{\topsep}
   }{
   }
 
 \lstnewenvironment{termblock}
   {
     \lstset{
-      language=bash,
+      language={},
       showstringspaces=false,
       upquote=false,
 %
@@ -65,11 +65,11 @@
       xrightmargin=10pt,
       framexleftmargin=-18pt,
 %
-      rulecolor=\color{solarized-base03},
       backgroundcolor=\color{solarized-base03},
 %
       basicstyle=\color{solarized-base0}\ttfamily,
 %
     }
+    \vspace{\topsep}
   }{
   }
