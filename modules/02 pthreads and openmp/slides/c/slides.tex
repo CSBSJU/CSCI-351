@@ -26,14 +26,6 @@
 \usepackage{listings}
 \usepackage[scale=3]{ccicons}   % creative commons icons
 
-%\newenvironment{termblock}%
-%  {%
-%    \setbeamercolor{block body}{bg=blue,fg=white}%
-%    \begin{block}\begin{lstlisting}{language=bash}%
-%  }{%
-%    \end{lstlisting}\end{block}%
-%  }
-
 \title{C programming language}
 \date{}
 \author{Jeremy Iverson}
@@ -44,11 +36,11 @@
   \begin{frame}{origins}
     \vspace{3ex}
     \begin{columns}
-      \begin{column}{.38275\textwidth}
+      \begin{column}{.38425\textwidth}
         \includegraphics[width=\textwidth]{Dennis_Ritchie_2011.jpg}\\
         \hfill \tiny{\href{https://en.wikipedia.org/wiki/Dennis\_Ritchie\#/media/File:Dennis\_Ritchie\_2011.jpg}{Dennis~Ritchie~in~2011}~/~\href{http://creativecommons.org/licenses/by-sa/2.0}{CC~BY~2.0}}
       \end{column}
-      \begin{column}{.51725\textwidth}
+      \begin{column}{.51575\textwidth}
         \includegraphics[width=\textwidth]{Brian_Kernighan_in_2012.jpg}\\
         \hfill \tiny{\href{https://en.wikipedia.org/wiki/Brian\_Kernighan\#/media/File:Brian\_Kernighan\_in\_2012\_at\_Bell\_Labs\_1.jpg}{Brian~Kernighan~in~2012}~/~\href{http://creativecommons.org/licenses/by-sa/2.0}{CC~BY~2.0}}
       \end{column}
@@ -96,19 +88,18 @@
 
   \begin{frame}[fragile]{hello, world}
     \begin{codeblock}
-      ###include <stdio.h>##
+    ###include <stdio.h>##
 
-      int main()
-      {
-        printf([["hello, world]]%%\n%%[["]]);
-        return $$0$$;
-      }
+    int main() {
+      printf([["hello, world]]%%\n%%[["]]);
+      return $$0$$;
+    }
     \end{codeblock}
 
     \begin{termblock}
-      $ gcc -o helloworld helloworld.c
-      $ ./helloworld
-      hello, world
+    $ gcc -o helloworld helloworld.c
+    $ ./helloworld
+    hello, world
     \end{termblock}
   \end{frame}
 
@@ -117,15 +108,15 @@
       \item under what conditions will each of the following be execute?
     \end{itemize}
     \begin{codeblock}
-      if (x) {
-        /* ??? */
-      }
-      if (x-y) {
-        /* ??? */
-      }
-      if (x=y) {
-        /* ??? */
-      }
+    if (x) {
+      /* ??? */
+    }
+    if (x-y) {
+      /* ??? */
+    }
+    if (x=y) {
+      /* ??? */
+    }
     \end{codeblock}
   \end{frame}
 
@@ -143,13 +134,13 @@
     \end{itemize}
 
     \begin{codeblock}
-      ###include <stdio.h>##
+    ###include <stdio.h>##
 
-      int main(int argc, char * argv[])
-      {
-        printf ([["(]]%%%d%%[[) ]]%%%s%%[[:]]%%%s\n%%[["]], argv[0], argv[1]);
-        return $$0$$;
-      } 
+    int main(int argc, char * argv[]) {
+      printf([["(]]%%%d%%[[) ]]%%%s%%[[:]]%%%s\n%%[["]], argc, argv[$$0$$],
+        argv[$$1$$]);
+      return $$0$$;
+    } 
     \end{codeblock}
   \end{frame}
 
