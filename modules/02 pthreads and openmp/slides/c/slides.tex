@@ -153,17 +153,12 @@
 
   \begin{frame}{add evens}
     \begin{itemize}
-      \item create program called \texttt{addEven.c} that adds all the even
+      \item create program called \texttt{add\_even.c} that adds all the even
         numbers between 1 and 100 and prints the sum
     \end{itemize}
   \end{frame}
 
   \begin{frame}[fragile]{cli}
-    \begin{itemize}
-      \item modify \texttt{addEven.c} to get maximum value from the command-line
-        instead of hard-coded as 100
-    \end{itemize}
-
     \begin{codeblock}
     ###include## $$<stdio.h>$$
 
@@ -173,6 +168,11 @@
       return $$0$$;
     }
     \end{codeblock}
+
+    \begin{itemize}
+      \item modify \texttt{add\_even.c} to get maximum value from the
+        command-line instead of hard-coded as 100
+    \end{itemize}
   \end{frame}
 
   \begin{frame}[fragile]{printf / scanf}
@@ -324,13 +324,14 @@
       \item \texttt{cp} is a \emph{pointer} to a \texttt{char}
     \end{itemize}
 
+    \vspace{-14pt}%
     \hspace{8pt}%
     \begin{tikzpicture}[font=\ttfamily,noname/.style={text height=1.5ex, text depth=.25ex, text centered, minimum height=3em}]
       \node[noname] at (-1.3,.3) {\textbf{0x00004C80}};
-      \foreach \x in {0,.6,...,7.2}
+      \foreach \x in {0,.6,...,7.8}
         \draw (\x,0) rectangle ++(.6,.6);
-      \draw[bg, ultra thick] (-.1,.6) -- ++(8,0);
-      \foreach [count=\i,evaluate=\i as \x using .3+(\i-1)*.6] \c in {h,e,l,l,o,{,},w,o,r,l,d,\textbackslash0}
+      \draw[bg, ultra thick] (-.1,.6) -- ++(8.4,0);
+      \foreach [count=\i,evaluate=\i as \x using .3+(\i-1)*.6] \c in {h,e,l,l,o,{,}, ,w,o,r,l,d,\textbackslash0}
         \node[noname] at (\x,.3) {\c};
 
       \node[noname] at (-1.3,-.7) {\textbf{0x????????}};
@@ -341,6 +342,7 @@
         \node[noname] at (\x,-.7) {\c};
     \end{tikzpicture}
 
+    \vspace{-6pt}%
     \begin{codeblock}
     printf([["]]%%%c\n%%[["]], *cp);     /* h */
     printf([["]]%%%c\n%%[["]], cp[$$0$$]);   /* h */
@@ -394,7 +396,7 @@
         data type
     \end{itemize}
     \begin{codeblock}
-    int * ip = malloc($$100$$*sizeof(ip));
+    int * ip = malloc($$100$$*sizeof(int));
     \end{codeblock}
 
     \hspace{8pt}%
@@ -472,12 +474,12 @@
     \end{onlyenv}
   \end{frame}
 
-  \begin{frame}[fragile]{practice}
-    \begin{itemize}
-      \item download \href{}{this} code
-      \item implement the \texttt{swap} method
-    \end{itemize}
-  \end{frame}
+  %\begin{frame}[fragile]{practice}
+  %  \begin{itemize}
+  %    \item download \href{}{this} code
+  %    \item implement the \texttt{swap} method
+  %  \end{itemize}
+  %\end{frame}
 
   \appendix
 
