@@ -474,6 +474,32 @@
     \end{onlyenv}
   \end{frame}
 
+  \begin{frame}[fragile]{file i/o}
+    \begin{codeblock}
+    ###include## $$<stdio.h>$$
+
+    int main() {
+      int m, n;
+      FILE * fp;
+
+      if (!(fp = fopen("example.txt", "r")))
+        return ##EXIT_FAILURE##;
+      if ($$2$$ != fscanf(fp, [["]]%%%d %d%%[["]], &m, &n))
+        return ##EXIT_FAILURE##;
+      if (!fclose(fp))
+        return ##EXIT_FAILURE##;
+
+      return $$0$$;
+    }
+    \end{codeblock}
+  \end{frame}
+
+  \begin{frame}{final thoughts}
+    \begin{itemize}
+      \item matrices
+    \end{itemize}
+  \end{frame}
+
   %\begin{frame}[fragile]{practice}
   %  \begin{itemize}
   %    \item download \href{}{this} code
