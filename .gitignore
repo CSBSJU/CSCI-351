@@ -59,3 +59,4 @@ dkms.conf
 *.snm
 *.toc
 *.vrb
+*-eps-converted-to.pdf
