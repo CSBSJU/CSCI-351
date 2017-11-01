@@ -74,9 +74,9 @@
       \item Matrix-matrix multiplication
     \end{itemize}
 
-    \note[item] {Adding numbers --- $T_s=\theta(n)$ --- $T_p=\theta(\log n)$}
-    \note[item] {Matrix-vector --- $T_s=\theta(n^2)$ --- $T_p=\theta(n)$}
-    \note[item] {Matrix-matrix --- $T_s=\theta(n^3)$ --- $T_p=\theta(n^2)$}
+    \note[item] {Adding numbers --- $T_s=\Theta(n)$ --- $T_p=\Theta(\log n)$}
+    \note[item] {Matrix-vector --- $T_s=\Theta(n^2)$ --- $T_p=\Theta(n)$}
+    \note[item] {Matrix-matrix --- $T_s=\Theta(n^3)$ --- $T_p=\Theta(n^2)$}
     \note[item] {So how long to compute mat-mat for a $10000\times10000$ mat?}
   \end{frame}
 
@@ -95,9 +95,9 @@
           computer with $p$ processing elements
       \end{itemize}
     \end{block}
-    \note[item] {Adding numbers --- $S=\theta(n/\log n)$}
-    \note[item] {Matrix-vector --- $S=\theta(n^2/n)=\theta(n)$}
-    \note[item] {Matrix-matrix --- $S=\theta(n^3/n^2)=\theta(n)$}
+    \note[item] {Adding numbers --- $S=\Theta(n/\log n)$}
+    \note[item] {Matrix-vector --- $S=\Theta(n^2/n)=\Theta(n)$}
+    \note[item] {Matrix-matrix --- $S=\Theta(n^3/n^2)=\Theta(n)$}
     \note[item] {What are the limits of speedup?}
 
     \vspace{-2ex}
@@ -113,9 +113,9 @@
           fraction of time for which a processing element is usefully employed
       \end{itemize}
     \end{block}
-    \note[item] {Adding numbers --- $E=\theta(n/\log n)/n=1/\log n$}
-    \note[item] {Matrix-vector --- $E=\theta(n)/n=1$}
-    \note[item] {Matrix-matrix --- $E=\theta(n)/n=1$}
+    \note[item] {Adding numbers --- $E=\Theta(n/\log n)/n=\Theta(1/\log n)$}
+    \note[item] {Matrix-vector --- $E=\Theta(n)/n=\Theta(1)$}
+    \note[item] {Matrix-matrix --- $E=\Theta(n)/n=\Theta(1)$}
     \note[item] {Why do you think that the efficiency of adding numbers is less
       than matrix-vector or matrix-matrix?}
     \note[item] {What are the limits of efficiency?}
@@ -131,13 +131,13 @@
       \begin{itemize}
         \item the sum of the time spent by all processing elements solving the
           problem
-        \item \emph{cost optimal} if $C=T_s$
+        \item \emph{cost-optimal} if $C=T_s$
       \end{itemize}
     \end{block}
-    \note[item] {Adding numbers --- $C=n\log n$}
-    \note[item] {Matrix-vector --- $C=n\times n=n^2$}
-    \note[item] {Matrix-matrix --- $C=n\times n^2=n^3$}
-    \note[item] {Adding numbers is not cost optimal, the others are}
+    \note[item] {Adding numbers --- $C=\Theta(n\log n)$}
+    \note[item] {Matrix-vector --- $C=n\times\Theta(n)=\Theta(n^2)$}
+    \note[item] {Matrix-matrix --- $C=n\times\Theta(n^2)=\Theta(n^3)$}
+    \note[item] {Adding numbers is not cost-optimal, the others are}
 
     \vspace{-2ex}
     \begin{center}
@@ -145,6 +145,64 @@
     \end{center}
   \end{frame}
 
+  \begin{frame}{Exercise --- vector addition}
+    $p=n$ --- \emph{not cost-optimal}
+    \begin{itemize}
+      \item $T_p=\Theta(\log n)$
+      \item $S=\Theta(\frac{n}{\log n})$
+      \item $E=\Theta(\frac{1}{\log n})$
+      \item $C=\Theta(n\log n)$
+    \end{itemize}
+
+    $p>n$ --- too many processing elements, use less
+
+    $p<n$ --- ?
+  \end{frame}
+
+  \begin{frame}{Exercise --- vector addition}
+    \addtocounter{framenumber}{-1}
+    $p=n$ --- \emph{not cost-optimal}
+    \begin{itemize}
+      \item $T_p=\Theta(\log n)$
+      \item $S=\Theta(\frac{n}{\log n})$
+      \item $E=\Theta(\frac{1}{\log n})$
+      \item $C=\Theta(n\log n)$
+    \end{itemize}
+
+    $p>n$ --- too many processing elements, use less
+
+    $n<p$ --- \emph{not cost-optimal?}
+    \begin{itemize}
+      \item $T_p=\Theta(\frac{n}{p}+\log p)$
+      \item $S=\Theta(\frac{n}{\frac{n}{p}+\log p})$
+      \item $E=\Theta(\frac{n}{n+\log p})$
+      \item $C=\Theta(n+p\log p)$
+    \end{itemize}
+  \end{frame}
+
+  \begin{frame}{Exercise --- vector addition}
+    \addtocounter{framenumber}{-1}
+    $p=n$ --- \emph{not cost-optimal}
+    \begin{itemize}
+      \item $T_p=\Theta(\log n)$
+      \item $S=\Theta(\frac{n}{\log n})$
+      \item $E=\Theta(\frac{1}{\log n})$
+      \item $C=\Theta(n\log n)$
+    \end{itemize}
+
+    $p>n$ --- too many processing elements, use less
+
+    $n<p$ --- \emph{cost-optimal iff $n=\Theta(p\log p)$}
+    \begin{itemize}
+      \item $T_p=\Theta(\frac{n}{p}+\log p)$
+      \item $S=\Theta(\frac{n}{\frac{n}{p}+\log p})$
+      \item $E=\Theta(\frac{n}{n+\log p})$
+      \item $C=\Theta(n+p\log p)$
+    \end{itemize}
+    \note[item] {if you are given a problem size, what is the maximum number of
+      processing elements that can be used in a cost optimal way?}
+    \note[item] {what are the limits of efficiency\dots how about speedup?}
+  \end{frame}
 
   %\begin{frame}[standout]
   %  \ifnotes
