@@ -19,6 +19,7 @@
 \fi
 
 \usepackage{appendixnumberbeamer}
+\usepackage{algpseudocode}
 \usepackage{multirow}
 \usepackage{verbatim}
 \usepackage{tikz}
@@ -145,7 +146,7 @@
     \end{center}
   \end{frame}
 
-  \begin{frame}{Exercise --- vector addition}
+  \begin{frame}{Exercise --- vector summation}
     $p=n$ --- \emph{not cost-optimal}
     \begin{itemize}
       \item $T_p=\Theta(\log n)$
@@ -159,7 +160,7 @@
     $p<n$ --- ?
   \end{frame}
 
-  \begin{frame}{Exercise --- vector addition}
+  \begin{frame}{Exercise --- vector summation}
     \addtocounter{framenumber}{-1}
     $p=n$ --- \emph{not cost-optimal}
     \begin{itemize}
@@ -171,7 +172,7 @@
 
     $p>n$ --- too many processing elements, use less
 
-    $n<p$ --- \emph{not cost-optimal?}
+    $p<n$ --- \emph{not cost-optimal?}
     \begin{itemize}
       \item $T_p=\Theta(\frac{n}{p}+\log p)$
       \item $S=\Theta(\frac{n}{\frac{n}{p}+\log p})$
@@ -180,7 +181,7 @@
     \end{itemize}
   \end{frame}
 
-  \begin{frame}{Exercise --- vector addition}
+  \begin{frame}{Exercise --- vector summation}
     \addtocounter{framenumber}{-1}
     $p=n$ --- \emph{not cost-optimal}
     \begin{itemize}
@@ -192,7 +193,7 @@
 
     $p>n$ --- too many processing elements, use less
 
-    $n<p$ --- \emph{cost-optimal iff $n=\Theta(p\log p)$}
+    $p<n$ --- \emph{cost-optimal iff $n=\Theta(p\log p)$}
     \begin{itemize}
       \item $T_p=\Theta(\frac{n}{p}+\log p)$
       \item $S=\Theta(\frac{n}{\frac{n}{p}+\log p})$
@@ -203,6 +204,49 @@
       processing elements that can be used in a cost optimal way?}
     \note[item] {what are the limits of efficiency\dots how about speedup?}
   \end{frame}
+
+  \begin{frame}{Exercise}
+    \vspace{-6ex}
+    \begin{center}
+      \includegraphics[width=.70\textwidth,angle=-90]{p}
+    \end{center}
+    \note[item] {give students introduction to Gnuplot}
+  \end{frame}
+
+  \begin{frame}<1>[label=countingsortalgorithm]{Counting sort}
+    \begin{algorithmic}[1]
+      \Function{CountingSort}{$inValues$,$outValues$}
+        \State $count\gets \{0\}$
+        \ForAll{$v$ \textbf{in} $inValues$}
+          \State $count[v]\gets count[v]+1$
+        \EndFor
+        \State\Call{PrefixScan}{$count$}
+        \ForAll{$v$ \textbf{in} $inValues$}
+          \State $outValues[count[v]]\gets v$
+          \State $count[v]\gets count[v]+1$
+        \EndFor
+      \EndFunction
+    \end{algorithmic}
+    \note[item] {Which of these steps can be parallelized?}
+    \note[item] {Assuming we have $p=n$, and we can efficiently parallelize the
+      two for loops, what is our analysis?}
+    %\note<2>[item] {what are the limitations of this algorithm?}
+  \end{frame}
+
+  \begin{frame}{Counting sort --- analysis}
+    $p=n$ --- ?
+    \begin{itemize}
+      \item $T_p=\Theta(\log |count|)$ or $T_p=\Theta(\log n)$
+      \item $S=\Theta(\frac{n}{\log n})$
+      \item $E=\Theta(\frac{1}{\log n})$
+      \item $C=\Theta(n\log n)$
+    \end{itemize}
+    \note[item] {$T_p$ will be $\log |count|$ unless we use a dense
+      data structure like a map in which case it will be $\log n$}
+    \note[item] {$n$ will always be $\le |count|$}
+  \end{frame}
+
+  %\againframe<2>{countingsortalgorithm}
 
   %\begin{frame}[standout]
   %  \ifnotes
