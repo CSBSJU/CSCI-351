@@ -60,3 +60,10 @@ dkms.conf
 *.toc
 *.vrb
 *-eps-converted-to.pdf
+
+# canvas-workflow
+.bundle
+.jekyll-metadata
+vendor
+Gemfile*
+_site

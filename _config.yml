@@ -1,0 +1,29 @@
+# Canvas settings.
+canvas:
+  prefix: "https://csbsju.instructure.com"
+  course: "14840"
+  start-date: "2020-10-26"
+  # Exclude the following files/folders from uploading. Canvas Workflow gives
+  # precedence to include over exclude, so you can selectively include
+  # files/folders that exist in excluded directories.
+  exclude:
+    - files/notes
+    - files/psets
+    - files/slides
+  # Selectively include files/folders that have been previously excluded.
+  include:
+    - files/notes/**/*-final.pdf
+    - files/psets/**/*-final.pdf
+    - files/slides/**/*-final.pdf
+
+# Exclude the following files/folders from processing. Jekyll currently gives
+# exclude precedence over include, so list files/folders to be excluded here.
+exclude:
+  - AUTHORS
+  - LICENSE*
+  - files
+  - notes
+  - Gemfile*
+  - vendor
+  - modules
+  - pages.old
