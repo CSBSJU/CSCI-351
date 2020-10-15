@@ -1,8 +1,9 @@
 # Tell Travis the project language.
 language: ruby
 
-# Route to the container-based infrastructure for a faster build.
-sudo: false
+# Tell Travis the os and distribution to use.
+os: linux
+dist: xenial
 
 # Tell Travis to cache bundler dependencies
 cache:
