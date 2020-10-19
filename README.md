@@ -14,51 +14,26 @@ assignment---will be handled.[^1]<sup>,</sup>[^2]
 ## Introduction
 ### Purpose
 
-Presents the theoretical foundations of parallel computing and an overview of
-several parallel computing models. Exposes students to current parallel
-programming models and systems through projects. Teaches students the ability to
-determine the most appropriate model for a given task.
-
-While most people understand that computing depends at its core on mathematics;
-most do not understand the peculiar nature of the mathematics underlying
-computing. Modern computers are digital; that is, they work with distinct values
-that can be represented by (binary) integer codes. The mathematics that deals
-with the manipulation of distinct or discrete values is called *discrete
-mathematics*.
-
-This course approaches discrete mathematics from a point of view that is
-practical for computer science students. We will cover logic, proof, sets,
-relations, functions, recursion and induction, counting principles, and
-probability, all with an eye to how they are used throughout computing. We will
-use functional programming in Haskell as a way to visualize and demonstrate
-these mathematical structures.
-
-To meet the objectives for this course, you will be able:
-
-* to create and explain the steps of simple logical proofs
-* to find the solution to simple recurrence relations
-* to apply induction and demonstrate the correctness of solutions to a variety
-  of computing problems
-* to think clearly and critically about probabilistic issues in computing
-* to write medium scale programs in a modern functional language (Haskell)
+This course presents the theoretical foundations of parallel computing and an
+overview of several parallel computing models. It exposes students to current
+parallel programming models and systems through projects and teaches students
+the ability to determine the most appropriate model for a given task.
 
 ### Requirements
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD",
 "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be
 interpreted as described in [RFC 2119].
 
-Students are REQUIRED to have access to the zyBook, [Discrete
-Mathematics](https://learn.zybooks.com/zybook/CSBSJUCSCI239IversonFall2019) by
-Irani et al. You SHOULD read the instructions in the [How to Use
-zyBooks](/courses/12826/assignments/132304) assignment for directions about
-obtaining access to the book, if you do not have it already.
+Students are REQUIRED to have access to the textbook, *An Introduction to
+Parallel Programming* by Peter S. Pacheco. This course is based on the first
+edition of the book, thus, it is RECOMMENDED that students acquire this edition.
 
 ### Terminology
 class meeting
 : A meeting scheduled during the time slot assigned to the course and during the
   university approved academic calendar for the relevant semester. Such meetings
-  will normally take place in the assigned classroom, however, they MAY occur
-  elsewhere.
+  will normally take place in the assigned classroom and simultaneously via
+  Zoom, however, they MAY occur elsewhere.
 
 excused absence
 : An absence from a scheduled class meeting with prior permission from the
