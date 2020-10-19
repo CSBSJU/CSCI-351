@@ -8,16 +8,6 @@
   \usepackage{pgfpages}
   \setbeamertemplate{note page}[plain]
   \setbeameroption{show notes on second screen=right}
-  % the following fixes bug which causes normal text to be white instead of
-  % template default when notes are enabled
-  % (see https://tex.stackexchange.com/questions/232168/normal-text-is-invisible-when-using-beamer-with-notes-and-xelatex)
-  \makeatletter 
-  \def\beamer@framenotesbegin{% at beginning of slide
-       \usebeamercolor[fg]{normal text}
-        \gdef\beamer@noteitems{}% 
-        \gdef\beamer@notes{}% 
-  }
-  \makeatother
 \fi
 
 \usepackage{verbatim}
@@ -36,11 +26,8 @@
       \item instructor(s)
         \begin{itemize}
           \item Jeremy Iverson (\href{mailto:jiverson002@csbsju.edu}{\nolinkurl{jiverson002@csbsju.edu}})
-          \item PENGL 213, (320) 363-3083
-          \item office hours: \begin{tabular}[t]{rrrcr}
-                                MW & 12:45 & - & 13:45 \\
-                                 T & 11:30 & - & 12:30
-                              \end{tabular}
+          \item MAIN 258, (320) 363-5542
+          \item \emph{Zoom} office hours: TBD
         \end{itemize}
       \item textbook
         \begin{itemize}
@@ -49,44 +36,96 @@
         \end{itemize}
       \item website
         \begin{itemize}
-          \item \url{https://csbsju.instructure.com/courses/7664}
+          \item \url{https://csbsju.instructure.com/courses/14840}
+        \end{itemize}
+      \item zoom
+        \begin{itemize}
+          \item \url{https://csbsju.zoom.us/j/91795643146?pwd=ZGFRejNkcTlzQ3FISktTb1V5aysxZz09}
         \end{itemize}
     \end{itemize}
 
     \note{I prefer to be called Jeremy\\}
+    \note{I am married and my wife and I have five children, age six and under,
+      the youngest is ~1 month old\\}
     \note{Encourage questions right away\\}
     \note{Emphasize the importance of the Canvas site for finding information
       about the class}
   \end{frame}
 
-  \begin{frame}{course objectives}
+  \begin{frame}{zoom etiquette}
     \begin{itemize}
-      \item understand common parallel architectures
-      \item design and analyze parallel algorithms
-      \item write efficient parallel programs
+      \item all students should be logged into Zoom, including those in the
+        classroom
+      \item keep microphone muted unless you are talking
+      \item use raise hand feature if you need the instructor's attention
+      \item monitor chat window; use chat feature to:
+        \begin{itemize}
+          \item comment or add appropriate input during class activities, or
+          \item ask questions that are not time sensitive.
+        \end{itemize}
+    \end{itemize}
+
+    \note{I will address questions asked in chat, as time allows; questions
+      which are not answered, I will address outside of class via Canvas
+      announcement or discussions.\\}
+  \end{frame}
+
+  \begin{frame}[standout]
+    zoom test
+
+    \note{after zoom is setup and working for students, take a break until
+      ?????\\}
+  \end{frame}
+
+  \begin{frame}{class structure}
+    \begin{itemize}
+      \item class will be organized around 25 minute blocks
+      \item between each block, we will take a 5 minute break
+        \pause
+        \begin{itemize}
+          \item because there are an abundance of breaks scheduled, please wait
+            until a break to take care of things that require you leaving your
+            seat, unless absolutely necessary
+        \end{itemize}
+    \end{itemize}
+
+    \only<2->{a goal of this schedule is to reduce the impact of internal and
+      external interruptions on focus and flow.}
+  \end{frame}
+
+  \begin{frame}{today's schedule}
+    \begin{itemize}
+      \item syllabus
+      \item motivation for studying parallel computing
+      \item challenges of parallel computing
+      \item workflows for our high-performance cluster
+      \item brief review of CPU and memory
     \end{itemize}
   \end{frame}
 
-  \begin{frame}{course content}
-    \begin{itemize}
-      \item parallel architectures
-      \item C programming
-      \item Pthreads
-      \item OpenMP
-      \item MPI
-      \item performance analysis
-      \item parallel algorithm design
-      \item collective communication operations
-      \item matrix algorithms
-      \item sorting algorithms
-      \item graph algorithms
-    \end{itemize}
+  \begin{frame}{course objectives}
+    Presents the \textbf<3>{theoretical foundations of parallel computing} and
+    \textbf<2>{an overview of several parallel computing models}. Exposes
+    students to current parallel programming models and systems through
+    \textbf<4>{projects}. Teaches students the ability to determine the most
+    appropriate model for a given task.
 
-    \note{Ask students to point out some of the topics that they many have seen
-      before and explain what they are\\}
-    \note{Point out that each of these bullets corresponds to one of the
-      ``modules'' on Canvas (except the last three, which are under advanced
-      topics)}
+    \note<2>{we will study the two most common parallel computing models used in
+      practice, and briefly discuss a third}
+    \note<3>{
+      this will be structured in a similar way as CSCI 338 for those who have
+      taken that course. although the material there will not be required for
+      this class, it will be helpful. all that will be required here is a sound
+      understanding of asymptotic analysis of functions (i.e., big-oh).
+      \begin{itemize}
+        \item first, we will study a framework for analyzing parallel
+          algorithms
+        \item then we will study techniques for decomposing a problem in order
+          to formulate a parallel solution
+      \end{itemize}
+    }
+    \note<4>{throughout the course, we will be applying what we are learning
+      via a series of programming assignments}
   \end{frame}
 
   \begin{frame}[fragile]{assignments}
@@ -108,7 +147,7 @@
 
   \begin{frame}{exams}
     \begin{itemize}
-      \item two (2) in-class exams (closed book / note)
+      \item two (2) in-class exams (closed book / closed note)
       \item one (1) in-class final exam (closed book / open note) [cumulative]
     \end{itemize}
 
@@ -119,7 +158,7 @@
     \begin{itemize}
       \item point distribution
         \begin{itemize}
-          \item assignments: 12.5\% each (??\%total)
+          \item assignments: 50\% total
           \item exams: 15\% each
           \item final: 20\%
         \end{itemize}
@@ -139,37 +178,8 @@
         policies.
       \item There will be an absolutely zero tolerance policy. Any copying
         issues that will arise will be automatically reported to the
-        institution. 
+        institution.
     \end{itemize}
-  \end{frame}
-
-  \begin{frame}{office hours}
-    \begin{itemize}
-      \item stop by anytime
-      \item \href{http://exchange.csbsju.edu/owa/calendar/JIVERSON002@CSBSJU.EDU/Calendar/calendar.html}{my calendar}
-    \end{itemize}
-
-    \note{Mention outlook calendar \& my home page\\}
-    \note{For those unfamiliar with Outlook meetings, then they should schedule
-      another way and we will go over this in meeting\\}
-    \note{Mention not generally availability in the afternoons}
-  \end{frame}
-
-  \begin{frame}{teaching philosophy}
-    Your job is to empower those you teach; when you do for them what they
-    should be doing for themselves, you create dependency rather than
-    empowerment.
-
-    It is easy to give in to the frustration that results from seeing amazing
-    possibilities for the people you are teaching, and you want it more for them
-    than they want it for themselves. 
-
-    Don’t give in to that frustration! \\
-    \hfill \footnotesize{- Based on passage from ``Resisting Happiness'' by
-      Matthew Kelly}
-
-    \note{In other words, don't expect me to give you answers. My job is to help
-      you discover the answers for yourself.}
   \end{frame}
 
   \begin{frame}{expectations}
@@ -186,75 +196,85 @@
       \item Encourage students to stop and think before replying.
       \item Don’t be discouraged if comprehension is not apparent right away,
         but don’t be complacent
-      \item \textbf{Seek help (TAs and me)}
       \item Students can expect the same things from me.
     \end{itemize}}
   \end{frame}
 
-  \begin{frame}{serial algorithms}
+  \begin{frame}{office hours}
     \begin{itemize}
-      \item some algorithms that will be relevant to this course:
-        \begin{itemize}
-          \item finding min/max values in array
-          \item matrix-vector and matrix-matrix multiplication
-          \item Gaussian elimination
-          \item depth-first, breadth-first, and best-first traversals
-          \item minimum spanning tree
-          \item single source shortest path
-          \item quicksort, radix sort, bucket sort, counting sort, sample sort
-          \item A* and IDA* heuristic search
-        \end{itemize}
+      \item stop by anytime
+      \item \href{http://exchange.csbsju.edu/owa/calendar/JIVERSON002@CSBSJU.EDU/Calendar/calendar.html}{my calendar}
     \end{itemize}
 
-    \note{\begin{itemize}
-      \item You do not need to know them all now, but it is a good idea to have
-        them on your radar
-      \item Wikipedia is a good resource in this case
-    \end{itemize}}
+    \note{Mention outlook calendar \& my home page\\}
+    \note{For those unfamiliar with Outlook meetings, then they should schedule
+      another way and we will go over this in meeting\\}
+    \note{Mention not generally availability in the mornings}
   \end{frame}
 
+  %\begin{frame}{serial algorithms}
+  %  \begin{itemize}
+  %    \item some algorithms that will be relevant to this course:
+  %      \begin{itemize}
+  %        \item finding min/max values in array
+  %        \item matrix-vector and matrix-matrix multiplication
+  %        \item Gaussian elimination
+  %        \item depth-first, breadth-first, and best-first traversals
+  %        \item minimum spanning tree
+  %        \item single source shortest path
+  %        \item quicksort, radix sort, bucket sort, counting sort, sample sort
+  %        \item A* and IDA* heuristic search
+  %      \end{itemize}
+  %  \end{itemize}
+
+  %  \note{\begin{itemize}
+  %    \item You do not need to know them all now, but it is a good idea to have
+  %      them on your radar
+  %    \item Wikipedia is a good resource in this case
+  %  \end{itemize}}
+  %\end{frame}
+
   \begin{frame}[standout]
-    \ifnotes
-      \usebeamercolor[white]{normal text} % override bug fix in preamble
-    \fi
     questions?
+
+    \note{after answering questions, take a break until ?????\\}
   \end{frame}
 
   \appendix
 
-  \begin{frame}{notecards}
-    \begin{itemize}
-      \item given name
-      \item preferred name and pronunciation
-      \item anything you would like me to know about you
-      \item at least one of the following:
-        \begin{itemize}
-          \item reason for taking the class
-          \item what you are hoping to learn from the class
-        \end{itemize}
-    \end{itemize}
-  \end{frame}
-
-  \begin{frame}{activity}
-    \begin{itemize}
-      \item stand up
-      \item think of the number 1
-      \item repeat while there is at least one other person standing
-        \begin{itemize}
-          \item find another (just one) person standing
-          \item whoever is thinking of a higher number, adds the other persons
-            number to theirs
-          \item whoever is thinking of a lower number, sits down
-          \item in the event of a tie, the taller of the two people sits down
-        \end{itemize}
-    \end{itemize}
-
-    \note{\begin{itemize}
-      \item How many people did you talk to?
-      \item What is the maximum number of people that you talked to as a
-        function of the result?
-    \end{itemize}}
-  \end{frame}
+%  \begin{frame}{notecards}
+%    \begin{itemize}
+%      \item given name
+%      \item preferred name and pronunciation
+%      \item anything you would like me to know about you
+%      \item at least one of the following:
+%        \begin{itemize}
+%          \item reason for taking the class
+%          \item what you are hoping to learn from the class
+%        \end{itemize}
+%    \end{itemize}
+%  \end{frame}
+%
+%  \begin{frame}{activity}
+%    \begin{itemize}
+%      \item stand up
+%      \item think of the number 1
+%      \item repeat while there is at least one other person standing
+%        \begin{itemize}
+%          \item find another (just one) person standing
+%          \item whoever is thinking of a higher number, adds the other persons
+%            number to theirs
+%          \item whoever is thinking of a lower number, sits down
+%          \item in the event of a tie, the taller of the two people sits down
+%        \end{itemize}
+%    \end{itemize}
+%
+%    \note{\begin{itemize}
+%      \item How many people did you talk to?
+%      \item What is the maximum number of people that you talked to as a
+%        function of the result?
+%    \end{itemize}}
+%  \end{frame}
 
   \begin{frame}[c]
     \begin{center}\ccbysa\end{center}
