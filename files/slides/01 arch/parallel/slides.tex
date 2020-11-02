@@ -6,21 +6,12 @@
   \usepackage{pgfpages}
   \setbeamertemplate{note page}[plain]
   \setbeameroption{show notes on second screen=right}
-  % the following fixes bug which causes normal text to be white instead of
-  % template default when notes are enabled
-  % (see https://tex.stackexchange.com/questions/232168/normal-text-is-invisible-when-using-beamer-with-notes-and-xelatex)
-  \makeatletter 
-  \def\beamer@framenotesbegin{% at beginning of slide
-       \usebeamercolor[fg]{normal text}
-        \gdef\beamer@noteitems{}% 
-        \gdef\beamer@notes{}% 
-  }
-  \makeatother
 \fi
 
 \usepackage{appendixnumberbeamer}
 \usepackage{multirow}
 \usepackage{verbatim}
+\usepackage{solarized}            % use solarized themed listings
 \usepackage{tikz}
 \usetikzlibrary{decorations.pathreplacing}
 \usepackage[scale=3]{ccicons}   % creative commons icons
@@ -32,97 +23,37 @@
 \begin{document}
   \maketitle
 
-  \begin{frame}{recap}
+  \begin{frame}{plan for the day}
     \begin{itemize}
-      \item von Neumann architecture
-        \begin{itemize}
-          \item central processing unit
-          \item memory
-            \begin{itemize}
-              \item cache (\$)
-            \end{itemize}
-          \item interconnection
-        \end{itemize}
-      \item operating system
-        \begin{itemize}
-          \item processes vs threads
-        \end{itemize}
+      \item Naive Bayes assignment updates (40min + 5min break)
+      \item parallel computer organization (40min + 5min break)
+      \item classes of parallel computation (40min + 5min break)
+      \item our first parallel algorithms (40min + 5min break)
+    \end{itemize}
+  \end{frame}
+
+  \begin{frame}[standout]
+    Naive Bayes in C
+  \end{frame}
+
+  \begin{frame}{parallel computer organization}
+    \begin{itemize}
+      \pause
+      \item control mechanism
+      \pause
+      \item communication model
     \end{itemize}
 
     \note{
       \begin{itemize}
-        \item \texttt{lscpu}
-        \item \texttt{cat /proc/cpuinfo} activity for CPU info
-        \item \texttt{cat /sys/devices/system/cpu/cpu0/cache/} for cache info
-        \item L1, L2, L3
+        \item in order to thinking about how we might solve problems using
+          parallel computation, we need to understand what parallel capabilities
+          our computing systems have.
+        \item there are two fundamental questions we need to ask...
           \begin{itemize}
-            \item L1 is usually split into data and instruction
-            \item L2 is usually not shared, i.e., each core has its own
-            \item L3 is usually shared by multiple cores
-          \end{itemize}
-        \item multitasking operating system, runs many processes despite having
-          only one or a ``small'' number of physical cores
-          \begin{itemize}
-            \item context switches the processes at predefined time slices
-            \item \texttt{top} activity
-          \end{itemize}
-        \item generally speaking, processes have their own address space,
-          threads share an address space
-      \end{itemize}
-    }
-  \end{frame}
-
-  \begin{frame}[fragile]{cache performance}
-    From Intel Performance Analysis Guide:
-    \begin{tiny}
-      \begin{verbatim}
-        Core i7 Xeon 5500 Series Data Source Latency (approximate)               [Pg. 22]
-
-        local  L1 CACHE hit,                              ~4 cycles (   2.1 -  1.2 ns )
-        local  L2 CACHE hit,                             ~10 cycles (   5.3 -  3.0 ns )
-        local  L3 CACHE hit, line unshared               ~40 cycles (  21.4 - 12.0 ns )
-        local  L3 CACHE hit, shared line in another core ~65 cycles (  34.8 - 19.5 ns )
-        local  L3 CACHE hit, modified in another core    ~75 cycles (  40.2 - 22.5 ns )
-
-        remote L3 CACHE (Ref: Fig.1 [Pg. 5])        ~100-300 cycles ( 160.7 - 30.0 ns )
-
-        local  DRAM                                                   ~60 ns
-        remote DRAM                                                  ~100 ns
-      \end{verbatim}
-    \end{tiny}
-  \end{frame}
-
-  \begin{frame}{cache performance}
-    \includegraphics[width=\textwidth]{cache-perf.png}\\
-    \hfill \tiny{\href{https://i.stack.imgur.com/a7jWu.png}{Latency Numbers
-    Every Programmer Should Know}}
-  \end{frame}
-
-  \begin{frame}{parallel computing platform}
-    \begin{itemize}
-      \item logical organization
-        \begin{itemize}
-          \item the user's view of the machine as it is being presented via its
-            system software
-        \end{itemize}
-      \item physical organization
-        \begin{itemize}
-          \item the actual hardware architecture
-        \end{itemize}
-    \end{itemize}
-
-    \note{
-      \begin{itemize}
-        \item we need some vocabulary to be able to compare different types of
-          parallel systems
-          \begin{itemize}
-            \item we can describe a system based on its logical properties or
-              its physical properties
-          \end{itemize}
-        \item physical architecture is largely independent of the logical
-          architecture
-          \begin{itemize}
-            \item this slide deck deals with logical
+            \item control mechanism --- how are instructions executed in
+              parallel
+            \item communication model --- how do processing units communicate
           \end{itemize}
       \end{itemize}
     }
@@ -142,7 +73,7 @@
       \end{column}
       \begin{column}{.27\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{MISD.png}\\
+        %\includegraphics[width=\textwidth]{MISD.png}\\
         \includegraphics[width=\textwidth]{MIMD.png}
       \end{column}
     \end{columns}
@@ -159,11 +90,12 @@
             \item SIMD
               \begin{itemize}
                 \item gpu
-                \item some modern cpus have simd extensions
+                \item many modern cpus have simd extensions
               \end{itemize}
             \item MISD
               \begin{itemize}
-                \item fault tolerance
+                \item uncommon, but could be used for things like fault
+                      tolerance
               \end{itemize}
             \item MIMD (in many cases, this is further divided into a category
               commonly known as SPMD, single program multiple data)
@@ -213,9 +145,9 @@
       \begin{column}{.48\textwidth}
         \begin{itemize}
           \item shared-address space
-            \begin{itemize}
-              \item UMA / NUMA / ccNUMA
-            \end{itemize}
+            %\begin{itemize}
+            %  \item UMA / NUMA / ccNUMA
+            %\end{itemize}
         \end{itemize}
       \end{column}
       \begin{column}{.48\textwidth}
@@ -231,7 +163,7 @@
       {
         \draw[very thick] ({\x+1},1) -- ({\x+1},1.5);
         \draw[rounded corners=5pt] (\x,1.5) rectangle ++(2,1);
-        \node at ({\x+.6},2) {PE};
+        \node at ({\x+.6},2) {PU};
         \only<2>{\draw[rounded corners=5pt] ({\x+1.1},1.6) rectangle ++(.8,.8);}
         \only<2>{\node at ({\x+1.5},2) {\$};}
       }
@@ -241,7 +173,7 @@
       \foreach \x in {0,3,6,9}
       {
         \draw[rounded corners=5pt] (\x,-2.5) rectangle ++(2,1);
-        \node at ({\x+.6},-2) {PE};
+        \node at ({\x+.6},-2) {PU};
         \only<2>{\draw[rounded corners=5pt] ({\x+1.1},-2.4) rectangle ++(.8,.8);}
         \only<2>{\node at ({\x+1.5},-2) {\$};}
         \draw[very thick] ({\x+1},-3) -- ({\x+1},-2.5);
@@ -254,10 +186,10 @@
       \foreach \x in {0,3,6,9}
       {
         \draw[rounded corners=5pt] (\x,-7) rectangle ++(2,1);
-        \node at ({\x+.6},-6.5) {PE};
+        \node at ({\x+.6},-6.5) {PU};
         \only<2>{\draw[rounded corners=5pt] ({\x+1.1},-6.9) rectangle ++(.8,.8);}
         \only<2>{\node at ({\x+1.5},-6.5) {\$};}
-
+0
         \draw[very thick] ({\x+1},-7.5) -- ({\x+1},-7);
         \draw[rounded corners=5pt] (\x,-8.5) rectangle ++(2,1);
         \node at ({\x+1},-8) {Memory};
@@ -280,7 +212,7 @@
               \end{itemize}
             \item message-passing
               \begin{itemize}
-                \item communicate through messages sent between PEs
+                \item communicate through messages sent between PUs
                 \item build on two basic operations, \emph{send} and
                   \emph{receive}
               \end{itemize}
@@ -302,106 +234,120 @@
     }
   \end{frame}
 
-  \begin{frame}{cache coherence}
-      \begin{columns}
-        \begin{column}{.52\textwidth}
-          \begin{itemize}
-            \item update
-              \begin{itemize}
-                \item increases communication on the bus
-              \end{itemize}
-          \end{itemize}
-        \end{column}
-        \begin{column}{.44\textwidth}
-          \begin{itemize}
-          \item invalidate
-            \begin{itemize}
-              \item increases idling time
-            \end{itemize}
-        \end{itemize}
-      \end{column}
-    \end{columns}
+  \begin{frame}{classes of parallel computation}
+    \pause
 
-    \centering
-    \includegraphics[width=.60\textwidth]{cc_protocols.pdf}\\
-    \hfill \tiny{\href{}{}}
+    Imagine you are the head chef responsible for preparing a wedding banquet.
+    The meal will have four courses: appetizer, salad, main course, and dessert.
+    You have $P$ chefs at under your supervision.
+
+    \pause
+
+    How best to get the meal served to the guests as quickly as possible?
+
+    \pause
+
+    \begin{itemize}
+      \item \only<4>{Each chef works on $N/P$ meals independently of the
+        others.}\only<5>{\emph{data parallelism}}
+      \item \only<4>{Each chef works on a different task related to the
+        preparation of a meal, i.e., cutting carrots, cooking soup, icing cake,
+        etc.}\only<5>{\emph{task parallelism}}
+    \end{itemize}
 
     \note{
       \begin{itemize}
-        \item why is cache coherence important?
+        \item With this understanding of parallel computation, we can think
+          about how to formulate algorithms that expose some aspect of
+          parallelism. Typically we will find ourselves in one of two
+          situations, either:
           \begin{itemize}
-            \item maintains serializability --- just like ILP
+            \item we have a bunch of different tasks to carry out, all of which
+              can be done simultaneously
+            \item we want to do the same task to a bunch of different inputs
           \end{itemize}
+          it isn't always obvious which we have and sometimes the same problem
+          can be expressed many ways.
       \end{itemize}
+
       \begin{itemize}
-        \item considerations for each of the two protocols
-          \begin{itemize}
-            \item update increases communication because a message is sent every
-              time that a PE updates a value that it has in cache --- contrast
-              this with invalidate which sends a single invalidate after the
-              first update, but no subsequent messages
-            \item invalidate increases idle time because whenever a PE accesses
-              a value that has been invalidated, it must wait while the updated
-              value is fetched --- contrast this with update, where the updated
-              value would have been sent at the time of the update
-          \end{itemize}
-        \end{itemize}
-      \begin{itemize}
-        \item which do you think most processors use?
-          \begin{itemize}
-            \item invalidate
-          \end{itemize}
+        \item Is this an example of SIMD or MIMD, neither or both? Why?
       \end{itemize}
     }
   \end{frame}
 
-  \begin{frame}{false sharing}
-    \vspace{3ex}
-    \centering
-    \begin{tikzpicture}
-      \node at (-.75,4.5) {\textbf{\$-line}};
-      \foreach \x in {0,...,7}
-        \draw (\x,4) rectangle ++(1,1);
-      \draw[white, ultra thick] (0,5) -- ++(8,0);
-      \draw[decoration={brace,raise=-5pt},decorate] (0.1,5.5) --
-        node[above] {a[0]} ++(3.8,0);
-      \draw[decoration={brace,raise=-5pt},decorate] (4.1,5.5) --
-        node[above] {a[1]} ++(3.8,0);
-      \node at (8.5,4.5) {$\boldsymbol{\cdots}$};
-    \end{tikzpicture}
-
-    \begin{tabular}{lll}
-      & \multicolumn{1}{c}{PE0} & \multicolumn{1}{c}{PE1}\\
-      \multicolumn{1}{c}{time} & a[0] = 1 & a[1] = 7\\
-      \multicolumn{1}{c}{\multirow{2}{*}{\Big\downarrow}} & a[0] = 2 & a[1] = 8\\
-      & a[0] = 3 & a[1] = 9
-    \end{tabular}
-
-    \note{
-      \begin{itemize}
-        \item a few more notes about caches
-        \begin{itemize}
-          \item data is fetched from memory at the granularity of a cache line
-          \item cache lines are fixed size (typically 64 bytes)
-        \end{itemize}
-      \end{itemize}
-      \begin{itemize}
-        \item consider this example
-          \begin{itemize}
-            \item what would happen if we were using invalidate protocol?
-            \item remember, the cache line is copied into the cache of PE0
-              \emph{and} PE1
-            \item how can this be avoided?
-          \end{itemize}
-      \end{itemize}
+  \begin{frame}[fragile]{\texttt{y := a*x + y}}
+    \begin{codeblock}
+    void
+    saxpy(size_t const n,
+          float  const a,
+          float  const * const x,
+          float        * const y)
+    {
+      for (size_t i = 0; i < n; i++) {
+        y[i] = a * x[i] + y[i];
+      }
     }
+    \end{codeblock}
   \end{frame}
 
-  %\begin{frame}[standout]
-  %  \ifnotes
-  %    \usebeamercolor[white]{normal text} % override bug fix in preamble
-  %  \fi
-  %\end{frame}
+  \begin{frame}[fragile]{reduction}
+    \begin{codeblock}
+    float
+    min(size_t const n,
+        float * const x,
+    {
+      /* x[0] will always contain the current
+       * minimum */
+      for (size_t i = 0; i < n; i++) {
+        if (x[i] < x[0]) {
+          x[0] = x[i];
+        }
+      }
+      return x[0];
+    }
+    \end{codeblock}
+  \end{frame}
+
+  \begin{frame}[fragile]{reduction cont'd}
+    \begin{codeblock}
+    float
+    min(size_t const n,
+        float * const x,
+    {
+      for (size_t i = 1; i < n; i *= 2) {
+        /* x[j] will always contain the current
+         * minimum in interval [j,j+2i)*/
+        for (size_t j = 0; j < n; j += 2 * i) {
+          if (x[j + i] < x[j]) {
+            x[j] = x[j + i];
+          }
+        }
+      }
+      return x[0];
+    }
+    \end{codeblock}
+  \end{frame}
+
+  \begin{frame}[fragile]{sorting}
+    \begin{verbatim}
+      count = array of k+1 zeros
+      for x in input do
+          count[x] += 1
+
+      total = 0
+      for i in 0, 1, ... k do
+          counti = count[i]
+          count[i] = total
+          total += counti
+
+      for x in input do
+          output[count[x]] = x
+          count[x] += 1
+
+      return output
+    \end{verbatim}
+  \end{frame}
 
   \appendix
 
