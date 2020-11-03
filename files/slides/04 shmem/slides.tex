@@ -1,0 +1,102 @@
+\ifnotes
+\else
+  \PassOptionsToClass{handout}{beamer}
+\fi
+
+\documentclass[10pt,t]{beamer}
+
+\usetheme{metropolis} % use metropolis theme
+
+\usepackage{solarized}            % use solarized themed listings
+\usepackage{appendixnumberbeamer} % do not number appendix frames
+\usepackage[scale=3]{ccicons}     % creative commons icons
+
+% fix-up the handling of the notes pages
+\ifnotes
+  \hypersetup{final}
+  \usepackage{pgfpages}
+  \setbeamertemplate{note page}[plain]
+  \setbeameroption{show notes on second screen=right}
+\fi
+
+%-------------------------------------------------------------------------------
+
+\usepackage{tabularx}
+\usepackage{tikz}
+\usetikzlibrary{decorations.pathreplacing}
+
+\title{Introduction to OpenMP}
+\date{}
+\author{Jeremy Iverson}
+\institute{College of Saint Benedict \& Saint John's University}
+\begin{document}
+  \maketitle
+
+  \begin{frame}{background}
+    \begin{itemize}
+      \item A standard \emph{directive}-based shared memory programming API
+      \item API consists of a set of compiler directives along with a library
+        functions.
+        \begin{itemize}
+          \item Compiler directives used for specifying concurrency and
+            synchronization
+          \item Library functions used for setting and getting runtime
+            parameters
+        \end{itemize}
+      \item Intended to support environments where OpenMP compiler support is
+        not available.
+    \end{itemize}
+  \end{frame}
+
+  \begin{frame}{execution model}
+    \begin{itemize}
+      \item Uses the \emph{fork / join} model of parallelism
+        \begin{itemize}
+          \item Execution begins with a single thread (master thread), which
+            creates a pool of threads upon encountering a parallel region
+        \end{itemize}
+    \end{itemize}
+  \end{frame}
+
+  \begin{frame}{compiler api}
+    \begin{block}{important directives}
+      \begin{itemize}
+        \item \texttt{parallel}
+        \item \texttt{for}
+        \item \texttt{critical}
+        \item \texttt{atomic}
+      \end{itemize}
+    \end{block}
+
+    \begin{block}{important clauses}
+      \begin{itemize}
+        \item \texttt{num\_threads}
+        \item \texttt{private}, \texttt{shared}, and \texttt{default}
+        \item \texttt{reduction}
+      \end{itemize}
+    \end{block}
+  \end{frame}
+
+  \begin{frame}{library api}
+    \begin{itemize}
+      \item Requires inclusion of \texttt{omp.h} header file.
+    \end{itemize}
+
+    \begin{itemize}
+      \item \texttt{omp\_get\_thread\_num()}
+      \item \texttt{omp\_get\_num\_threads()}
+      \item \texttt{omp\_set\_num\_threads(int num\_threads)}
+      \item \texttt{omp\_get\_wtime()}
+    \end{itemize}
+  \end{frame}
+
+  \appendix
+
+  \begin{frame}[c]
+    \begin{center}\ccbysa\end{center}
+
+    except where otherwise noted, this worked is licensed under
+    \href{http://creativecommons.org/licenses/by-sa/4.0/}{creative commons
+    attribution-sharealike 4.0 international license}
+  \end{frame}
+\end{document}

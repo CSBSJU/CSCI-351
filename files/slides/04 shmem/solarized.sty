@@ -1,0 +1,75 @@
+\RequirePackage{listings}
+
+% Solarized colors
+\definecolor{solarized-base03}{HTML}{002B36}
+\definecolor{solarized-base02}{HTML}{073642}
+\definecolor{solarized-base01}{HTML}{586E75}
+\definecolor{solarized-base00}{HTML}{657B83}
+\definecolor{solarized-base0}{HTML}{839496}
+\definecolor{solarized-base1}{HTML}{93A1A1}
+\definecolor{solarized-base2}{HTML}{EEE8D5}
+\definecolor{solarized-base3}{HTML}{FDF6E3}
+\definecolor{solarized-yellow}{HTML}{B58900}
+\definecolor{solarized-orange}{HTML}{CB4B16}
+\definecolor{solarized-red}{HTML}{DC322F}
+\definecolor{solarized-magenta}{HTML}{D33682}
+\definecolor{solarized-violet}{HTML}{6C71C4}
+\definecolor{solarized-blue}{HTML}{268BD2}
+\definecolor{solarized-cyan}{HTML}{2AA198}
+\definecolor{solarized-green}{HTML}{859900}
+
+\lstnewenvironment{codeblock}
+  {
+    \lstset{
+      language=c,
+      showstringspaces=false,
+      upquote=false,
+%
+      frame=l,
+      framesep=10pt,
+      xrightmargin=10pt,
+      framexleftmargin=-18pt,
+%
+      fillcolor=\color{solarized-base02},
+      backgroundcolor=\color{solarized-base03},
+      basicstyle=\color{solarized-base0}\ttfamily, % normal
+      commentstyle=\color{solarized-base01},       % comment
+      stringstyle=\color{solarized-cyan},          % constant
+      identifierstyle=\color{solarized-blue},      % identifier
+      keywordstyle=\color{solarized-green},        % statement
+%
+      moredelim=[is][\color{solarized-cyan}]{[[}{]]},       % string
+      moredelim=[is][\color{solarized-red}]{\%\%}{\%\%},    % escape
+      moredelim=[is][\color{solarized-cyan}]{\$\$}{\$\$},   % constant
+      moredelim=[is][\color{solarized-orange}]{\#\#}{\#\#}, % pre-processor
+      emph={[1]char,short,int,long,signed,unsigned,float,double},
+      emphstyle={[1]\color{solarized-yellow}},
+%
+      numbers=left,
+      numbersep=-16pt,
+      numberstyle=\normalfont\tiny\color{solarized-base01},
+    }
+    \vspace{\topsep}
+  }{
+  }
+
+\lstnewenvironment{termblock}
+  {
+    \lstset{
+      language={},
+      showstringspaces=false,
+      upquote=false,
+%
+      frame=l,
+      framesep=10pt,
+      xrightmargin=10pt,
+      framexleftmargin=-18pt,
+%
+      backgroundcolor=\color{solarized-base03},
+%
+      basicstyle=\color{solarized-base0}\ttfamily,
+%
+    }
+    \vspace{\topsep}
+  }{
+  }
