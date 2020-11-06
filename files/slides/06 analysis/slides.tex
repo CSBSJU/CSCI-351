@@ -286,6 +286,46 @@
 
   %\againframe<2>{countingsortalgorithm}
 
+  \begin{frame}{algorithm analysis}
+    \begin{block}{case analysis}
+      best, worst, average
+    \end{block}
+
+    \begin{block}{asymptotic analysis}
+      $\Omega$, $O$, $\Theta$
+    \end{block}
+  \end{frame}
+
+  \begin{frame}{empirical analysis}
+    \begin{itemize}
+      \item use wall clock time
+      \item time only the code that directly corresponds to your algorithm
+      \item repeat experiments multiple times to account for discrepencies in
+        timings
+        \begin{itemize}
+          \item take minimum execution time among several trials
+        \end{itemize}
+    \end{itemize}
+
+    \note[item] { your code will not magically run faster than its best possible
+                  exeuction time, but it may run slower, so take minimum }
+  \end{frame}
+
+  \begin{frame}{scalability}
+    How the execution time varies with the number of processors.
+    \begin{itemize}
+      \item \emph{strong} scaling --- how the solution time varies with the
+        number of processors for a fixed \emph{total} problem size.
+      \item \emph{weak} scaling --- how the solution time varies with the
+        number of processors for a fixed problem size \emph{per processor}.
+    \end{itemize}
+
+    \pause
+
+    Algorithms that require the problem size to grow at a lower rate are more
+    scalable.
+  \end{frame}
+
   \appendix
 
   \begin{frame}[c]
