@@ -2,43 +2,36 @@
 title: "Counting sort analysis"
 ---
 
+# Update
+To make the math *simpler*, assume that the number of keys, *k*=*n*. That way,
+you will only have two variables in your expressions, *n* and *p*.
+
 # Instructions
-Finish the parallelization of the program provided in [this](https://gist.github.com/cae93e5840c7d3cc9cda07e0e00ccd95.git) Git repository using OpenMP. The
-first and third loops have been parallellized. However, the results are
-incorrect. You need to adjust the second loop so that it correctly computes each
-thread's starting into the output array for each of the input values.
+Complete the following tasks:
 
-For more information about the parallelization strategy which led to incorrect
-results, see the Zoom recording for [Friday 11/6](https://csbsju.zoom.us/rec/share/on-d5fCyYxADIc9IjKPd31qdw75iRHqBrTU9moFjetl9m477L5qB334X3vX7ogED.8yydi5-_nqY2lmWX)
+1. Compute the serial and parallel execution times for the counting sort
+   algorithm that we parallelized in the [last assignment]({{ site.canvas.prefix }}/courses/{{ site.canvas.course }}/assignments/{% assignment Counting sort in OpenMP %}). Then, using these values, compute the speedup, efficiency, and
+   cost for a system with *p* processing units, where *p*=*n*, and *n* is the
+   size of the input array.
 
-# Experimental analysis
-The program is parameterized on three different values: threads, input size, and
-key size. Let's fix the key size at 15 and focus on experimenting with the
-program by varying the number of threads and the input size.
+1. Repeat the computations for case when *p*<*n*.
 
-You should execute your program for thread counts: 1, 2, 4, and 8. Since we are
-going up to 8 threads, I highly recommend running this code on the hpc\*
-machines, which all have at least 8 threads.
+Once finished, answer the following questions:
 
-For each thread count, you should execute your code for input sizes: all powers
-of 2 from 2^16 up to and including 2^26.
+1. What is the best speedup that we can hope for given that we did not
+   parallelize the second loop?
 
-This would make a grand total of 44 different experiments. Remember that each
-experiment should be executed multiple times and the minimum execution time
-should be reported.
+1. Can restricting the number of processing units below *n* improve the
+   efficiency and cost of the algorithm?
 
-Collect your results in a table, then make a graph showing the execution times.
-The x-axis should be the input size, the y-axis the execution time, and there
-should be four lines on the graph, representing each of the four thread counts.
+Assuming that we can parallelize the second loop, and that its parallel
+execution time (for the second loop only) is O(k/p + log p), complete the
+following task:
+
+1. Repeat the performance metric computations one more time, again assuming that
+   *p*<*n*.
 
 # Submission
-On Canvas, you need to submit a short report (PDF format) including the
-following:
-   * The source code for the second loop in the program.
-   * A brief explanation of how your changes address the problems raised by the
-     parallelization strategy used to parallelize the first and third loops.
-   * A table of execution times, reporting the minimum time for each experiment
-     only.
-   * A graph summarizing the table, as explained above.
-
-Upload the PDF document to Canvas.
+Collect your answers in a text or word document or take a picture of your
+hand-written solutions and upload to the assignment page on Canvas. Make sure
+that your submissions are legible.
