@@ -89,7 +89,9 @@
       \item \texttt{MPI\_Send()}
       \item \texttt{MPI\_Recv()}
     \end{itemize}
+  \end{frame}
 
+  \begin{frame}{point-to-point communication}
     \begin{itemize}
       \item MPI uses \emph{communicators} to organize processes. Processes can
         only communicate with other processes in the same communicator. The base
@@ -99,6 +101,8 @@
       \item Programs can deadlock due to improperly ordered or unmatched
         point-to-point communications.
     \end{itemize}
+
+    \includegraphics[width=\textwidth]{blocking-comm.png}\\
   \end{frame}
 
   \appendix
