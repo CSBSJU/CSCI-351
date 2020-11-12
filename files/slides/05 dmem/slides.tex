@@ -105,6 +105,83 @@
     \includegraphics[width=\textwidth]{blocking-comm.png}\\
   \end{frame}
 
+  \begin{frame}{collective communication}
+    \begin{itemize}
+      \item Represent regular \emph{communication patterns} that are performed
+        by parallel algorithms.
+      \item Include groups of processes, not just two.
+      \item Can be implemented to take advantage of underlying network
+        characteristics and thus improve performance compared to simple
+        point-to-point equivalents.
+      \item Most parallel libraries provide functions to perform them
+        (\texttt{omp parallel for reduction(+:sum)})
+    \end{itemize}
+  \end{frame}
+
+  \begin{frame}[fragile]{communication patterns}
+    \begin{codeblock}
+    if ($$0$$ == rank) {
+      for (int r = $$1$$; r < p; r++) {
+        MPI_Send(&x, $$1$$, MPI_INT, r, $$0$$,
+          MPI_COMM_WORLD);
+      }
+    } else {
+      MPI_Recv(&x, $$1$$, MPI_INT, $$0$$, $$0$$,
+        MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+    }
+    \end{codeblock}
+
+    \pause
+
+    \begin{codeblock}
+    MPI_Bcast(&x, $$1$$, MPI_INT, $$0$$, MPI_COMM_WORLD);
+    \end{codeblock}
+  \end{frame}
+
+  \begin{frame}[fragile]{communication patterns}
+    \begin{codeblock}
+    if ($$0$$ == rank) {
+      for (int r = $$1$$; r < p; r++) {
+        MPI_Send(rating + r * n * m, n * m,
+          MPI_DOUBLE, r, $$0$$, MPI_COMM_WORLD);
+      }
+    } else {
+      MPI_Recv(rating, n * m, MPI_DOUBLE, $$0$$, $$0$$,
+        MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+    }
+    \end{codeblock}
+
+    \pause
+
+    \begin{codeblock}
+    MPI_Scatter(rating, n * m, MPI_DOUBLE,
+      rating, n * m, MPI_DOUBLE, $$0$$,
+      MPI_COMM_WORLD);
+    \end{codeblock}
+  \end{frame}
+
+  \begin{frame}[fragile]{communication patterns}
+    \begin{codeblock}
+    if ($$0$$ == rank) {
+      for (int r = $$1$$; r < p; r++) {
+        size_t const rn = (r + $$1$$) * base > n
+                        ? n - r * base : base;
+        MPI_Send(rating + r * base * m, rn * m,
+          MPI_DOUBLE, r, $$0$$, MPI_COMM_WORLD);
+      }
+    } else {
+      MPI_Recv(rating, ln * m, MPI_DOUBLE, $$0$$, $$0$$,
+        MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+    }
+    \end{codeblock}
+
+    \pause
+
+    \begin{codeblock}
+    MPI_Scatterv(...);
+    \end{codeblock}
+  \end{frame}
+
   \appendix
 
   \begin{frame}[c]
