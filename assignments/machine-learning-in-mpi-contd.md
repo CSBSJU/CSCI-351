@@ -24,8 +24,8 @@ Remember that each experiment should be executed multiple times and the minimum
 execution time should be reported.
 
 Collect your results in a table, then make a graph showing the execution times.
-The x-axis should be the input size, the y-axis the execution time, and there
-should be four lines on the graph, representing each of the four thread counts.
+The x-axis should be the number of processes, the y-axis the execution time, and
+there should be one line on the graph.
 
 # Tips & tricks
 Since executions above 8 MPI processes will require the use of multiple
@@ -44,7 +44,7 @@ execute your code on.
 # Submission
 On Canvas, you need to submit a short report (PDF format) including the
 following:
-   * The source code for the second loop in the program.
+   * A link to the GitHub repository where your code lives.
    * A brief description of which point-to-point communications were able to be
      replaced by collective communications.
    * A table of execution times, reporting only the minimum time for each
